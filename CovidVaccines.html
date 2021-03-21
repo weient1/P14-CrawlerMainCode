@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Covid Vaccines</title>
+        <meta charset="UTF-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> <!-- Chart.js API CDN (requires internet)-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+
+    <body>
+        <div class="container">
+                    <div class="canvas-card" style="position: relative; height: 600px; width: 1000px;">
+                        <canvas id="firstchart"></canvas>
+                        </canvas>
+        </div>
+
+
+        <script>
+            //Polarity
+            window.modernaAvgPolarities_twitter = null;
+            window.pfizerAvgPolarities_twitter = null;
+            window.janssenAvgPolarities_twitter = null;
+            window.novavaxAvgPolarities_twitter = null;
+            window.sputnikAvgPolarities_twitter = null;
+            window.sinovacAvgPolarities_twitter = null;
+
+            window.modernaAvgPolarities_reddit = null;
+            window.pfizerAvgPolarities_reddit = null;
+            window.janssenAvgPolarities_reddit = null;
+            window.novavaxAvgPolarities_reddit = null;
+            window.sputnikAvgPolarities_reddit = null;
+            window.sinovacAvgPolarities_reddit = null;
+
+            let allPolarity_twitter = [];
+            let allPolarity_reddit = [];
+
+            //Twitter Section
+            async function fetchModerna_twitter(){
+                const response = await fetch("moderna_twitter_updated.json");
+                const data = await response.json();
+
+                //finding avg polarities chart
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                mAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                modernaAvgPolarities_twitter = mAvgPolarities.toFixed(3);
+                //console.log(modernaAvgPolarities_twitter,("- Moderna(twitter)"));
+                allPolarity_twitter.push(modernaAvgPolarities_twitter);
+
+            }
+            
+            async function fetchPfizer_twitter(){
+                const response = await fetch("pfizer_twitter_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var pAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                pfizerAvgPolarities_twitter = pAvgPolarities.toFixed(3);
+                //console.log(pfizerAvgPolarities_twitter,"- Pfizer(twitter)");
+                allPolarity_twitter.push(pfizerAvgPolarities_twitter);
+            }
+
+            async function fetchJanssen_twitter(){
+                const response = await fetch("janssen_twitter_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var jAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                janssenAvgPolarities_twitter = jAvgPolarities.toFixed(3);
+                //console.log(janssenAvgPolarities_twitter,"- Janssen(twitter)");
+                allPolarity_twitter.push(janssenAvgPolarities_twitter);
+            }
+
+            async function fetchNovavax_twitter(){
+                const response = await fetch("novavax_twitter_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var nAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                novavaxAvgPolarities_twitter = nAvgPolarities.toFixed(3);
+                //console.log(novavaxAvgPolarities_twitter,"- Novavax(twitter)")
+                allPolarity_twitter.push(novavaxAvgPolarities_twitter);
+            }
+
+            async function fetchSputnik_twitter(){
+                const response = await fetch("sputnik v_twitter_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var sputAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                sputnikAvgPolarities_twitter = sputAvgPolarities.toFixed(3);
+                //console.log(sputnikAvgPolarities_twitter,"- Sputnik(twitter)");
+                allPolarity_twitter.push(sputnikAvgPolarities_twitter);
+            }
+
+            async function fetchSinovac_twitter(){
+                const response = await fetch("sinovac_twitter_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var sinoAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                    sinovacAvgPolarities_twitter = sinoAvgPolarities.toFixed(3);
+                    //console.log(sinovacAvgPolarities_twitter, "- Sinovac(twitter)");
+                    allPolarity_twitter.push(sinovacAvgPolarities_twitter);
+            }
+
+
+
+
+            //Reddit Section
+            async function fetchModerna_reddit(){
+                const response = await fetch("moderna_reddit_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                mAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                modernaAvgPolarities_reddit = mAvgPolarities.toFixed(3);
+                //console.log(modernaAvgPolarities_reddit,"- Moderna(reddit)")
+                allPolarity_reddit.push(modernaAvgPolarities_reddit);
+            }
+            
+            async function fetchPfizer_reddit(){
+                const response = await fetch("pfizer_reddit_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var pAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                pfizerAvgPolarities_reddit = pAvgPolarities.toFixed(3);
+                //console.log(pfizerAvgPolarities_reddit,"- pfizer(reddit")
+                allPolarity_reddit.push(pfizerAvgPolarities_reddit);
+            }
+
+            async function fetchJanssen_reddit(){
+                const response = await fetch("janssen_reddit_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var jAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                    janssenAvgPolarities_reddit = jAvgPolarities.toFixed(3);
+                    //console.log(janssenAvgPolarities_reddit,"- Janssen(reddit)")
+                    allPolarity_reddit.push(janssenAvgPolarities_reddit);
+            }
+
+            async function fetchNovavax_reddit(){
+                const response = await fetch("novavax_reddit_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var nAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                    novavaxAvgPolarities_reddit = nAvgPolarities.toFixed(3);
+                    //console.log(novavaxAvgPolarities_reddit,"- Novavax(reddit")
+                    allPolarity_reddit.push(novavaxAvgPolarities_reddit);
+            }
+
+            async function fetchSputnik_reddit(){
+                const response = await fetch("sputnik v_reddit_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var sinoAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                sinovacAvgPolarities_reddit = sinoAvgPolarities.toFixed(3);
+                //console.log( sinovacAvgPolarities_reddit,"- Sinovac(reddit)")
+                allPolarity_reddit.push( sinovacAvgPolarities_reddit);
+            }
+
+            async function fetchSinovac_reddit(){
+                const response = await fetch("sinovac_reddit_updated.json");
+                const data = await response.json();
+                var polarities = data.records.map(function(elem){
+                    return elem.polarity;
+                });
+                //console.log(polarities);
+                var sinoAvgPolarities = polarities.reduce((a, b) => (a + b)) / polarities.length;
+                sinovacAvgPolarities_reddit = sinoAvgPolarities.toFixed(3);
+                //console.log(sinovacAvgPolarities_reddit,"- sinovac(Reddit)")
+                allPolarity_reddit.push(sinovacAvgPolarities_reddit);
+            }
+
+        
+            //fetching from twitter:
+            fetchModerna_twitter();
+            fetchPfizer_twitter();
+            fetchJanssen_twitter();
+            fetchNovavax_twitter();
+            fetchSputnik_twitter();
+            fetchSinovac_twitter();
+
+            //fetching from reddit:
+            fetchModerna_reddit();
+            fetchPfizer_reddit();
+            fetchJanssen_reddit();
+            fetchNovavax_reddit();
+            fetchSputnik_reddit();
+            fetchSinovac_reddit();
+            
+            console.log(allPolarity_twitter);
+            console.log(allPolarity_reddit);
+
+            
+         /*
+            ######## First Chart that is displayed first! ########
+                    ######## Starts From Here! ########
+         */
+         
+            var MyBarChart = new Chart(firstchart, {
+                type: 'bar',
+                data: {
+                    labels: ['Moderna', 'Pfizer', 'Janssen', 'Novavax','Sputnik V','Sinovac'],
+                    datasets: [{
+                        label: 'Tweeter Posts',
+                        yAxesID: "y-axis-1",
+                        data: allPolarity_twitter,
+                        backgroundColor: [
+                            'rgba(255, 99, 153, 0.2)',
+                            'rgba(54, 162, 234, 0.2)',
+                            'rgba(255, 206, 186, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(67, 27, 135, 0.2)',
+                            'rgba(95, 173, 86, 0.2)'
+
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(67, 27, 135, 1)',
+                            'rgba(95, 173, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: "Reddit Posts",
+                        yAxesID: "y-axis-2",
+                        data: allPolarity_reddit,
+                        backgroundColor: [
+                            'rgba(255, 99, 153, 2)',
+                            'rgba(54, 162, 234, 2)',
+                            'rgba(255, 206, 186, 2)',
+                            'rgba(75, 198, 192, 2)',
+                            'rgba(67, 27, 135, 2)',
+                            'rgba(95, 173, 86, 2)'
+                        ],
+                        borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 205, 1)',
+                        'rgba(255, 206, 8, 1)',
+                        'rgba(95, 192, 192, 1)',
+                        'rgba(67, 27, 135, 1)',
+                        'rgba(95, 173, 86, 1)'
+                        ],
+                        borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    title:{
+                        display:true,
+                        text:'Polarity of Covid19 Vaccine', //chart header name
+                        fontSize:25,
+                        padding: 10,
+                        margin: 15,
+                        fontColor: "#000",
+                        position: "top"
+                    },
+                    legend:{ //Legend option styling option
+                        //display:false,
+                        position:'right',
+                        labels:{
+                            fontColor:'rgba(0,0,0)'
+                        }
+                    },
+                    layout:{ //Positioning of the whole chart
+                        padding:{
+                            left:50,
+                            right:50,
+                            bottom:50,
+                            top:50
+                        }
+                    },
+                    scales: {
+                        yAxes:[{
+                            gridLines:{
+                                lineWidth: 1,
+                                zeroLineColor:"rgba(0,0,0)", 
+                                drawOnChartArea : true,
+                                fontColor:"rgba(0,0,0)"
+                            },
+                            ticks: {
+                                fontColor:"rgba(0,0,0)"
+                            }
+                        }],
+                        xAxes:[{
+                            gridLines:{
+                                lineWidth: 1,
+                                zeroLineColor:"rgba(0,0,0)",
+                                drawOnChartArea : true,
+                                fontColor:"rgba(0,0,0)"
+                            },
+                            ticks: {
+                                fontColor:"rgba(0,0,0)"
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
