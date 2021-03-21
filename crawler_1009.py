@@ -29,10 +29,10 @@ import praw # this is Reddit API crawler
 
 # ---------------- Authentications for the APIs ----------------
 #Variables that contains the user credentials to access Twitter API 
-access_token = '421663967-Hz4HafUN5RYo82UWqLGmTd6KxPprP90qOsld6aKv' #"mytoken"
-access_token_secret = '2Enlm0YjbMvqqfUXqz53rymo0U5hjVKrcMnRMJikG48nb' #"mytokenscret"
-consumer_key = 'R79OBgR64Bip8SPPy32A6FlO8' #"consumerkey'
-consumer_secret = 'keoB1Qs4NMKpkf1VjhQYaQOqGqsKAJy3HJXug5GRBpo4WSkxzV' #"consumersecret
+access_token = "mytoken"
+access_token_secret = "mytokenscret"
+consumer_key = "consumerkey"
+consumer_secret = "consumersecret"
         
 # Authorization and Authentication - call the API 
 auth = OAuthHandler(consumer_key, consumer_secret)
@@ -40,11 +40,11 @@ auth.set_access_token(access_token, access_token_secret)
 api = API(auth, wait_on_rate_limit=True)
 
 # Authorization and Authentication - to call the praw API
-reddit = praw.Reddit(client_id='H75A7tYoO4NU7w',\
-                     client_secret='bzYDpEB6hXe3ZAruahZILgSFReMCxQ',\
-                     user_agent='1009_crawler_asg',\
-                     username='1009asgacc',\
-                     password='sitsit1009')
+reddit = praw.Reddit(client_id='clientid',\
+                     client_secret='secret_client_id',\
+                     user_agent='applicationName',\
+                     username='username',\
+                     password='password')
     
 def main():
     """ Main Function to call API and the scrap functions for the individual keywords  - this will run for 500 rounds with a 500seconds interval between each run.
