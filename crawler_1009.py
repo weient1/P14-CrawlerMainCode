@@ -266,7 +266,7 @@ class Reddit(Crawler):
                 nopost +=1 # nopost + 1 when appended something
 
         # Run ended:
-        print('no. of tweets scraped for {} in run {} is {}'.format(self._keyword, self._roundCount, nopost)) #print to inform users    
+        print('no. of Reddit posts scraped for {} in run {} is {}'.format(self._keyword, self._roundCount, nopost)) #print to inform users    
         posts_df = pd.DataFrame(posts,columns=['id', 'postscore', 'num_comments', 'text', 'datecreated']) # created dataframe to store the crawled data
         posts_df = self.cleanseList(posts_df) #cleanse the text
         posts_df = self.polaritycheck(posts_df) #do polarity analysis of the text
